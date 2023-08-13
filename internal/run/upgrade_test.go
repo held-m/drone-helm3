@@ -40,7 +40,7 @@ func (suite *UpgradeTestSuite) TestNewUpgrade() {
 	cfg.Wait = true
 	cfg.Values = "steadfastness,forthrightness"
 	cfg.StringValues = "tensile_strength,flexibility"
-	cfg.ValuesFiles = []string{"/root/price_inventory.yml"}
+	cfg.ValuesFiles = []string{"~/price_inventory.yml"}
 	cfg.ReuseValues = true
 	cfg.Timeout = "go sit in the corner"
 	cfg.Chart = "billboard_top_100"
@@ -58,7 +58,7 @@ func (suite *UpgradeTestSuite) TestNewUpgrade() {
 	suite.Equal(cfg.Wait, up.wait)
 	suite.Equal("steadfastness,forthrightness", up.values)
 	suite.Equal("tensile_strength,flexibility", up.stringValues)
-	suite.Equal([]string{"/root/price_inventory.yml"}, up.valuesFiles)
+	suite.Equal([]string{"~/price_inventory.yml"}, up.valuesFiles)
 	suite.Equal(cfg.ReuseValues, up.reuseValues)
 	suite.Equal(cfg.Timeout, up.timeout)
 	suite.Equal(cfg.Force, up.force)

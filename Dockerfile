@@ -4,12 +4,12 @@ RUN apk update && apk upgrade
 
 ARG UID=1001
 ARG GID=1001
-ARG HOME=/home/app
 ARG WORKDIR=/app
 ARG DRONE_TAG
 
 ENV USR=app
 ENV GRP=app
+ARG HOME=/home/${USR}
 
 RUN addgroup --gid "${GID}" "${GRP}"
 RUN adduser \
@@ -17,7 +17,7 @@ RUN adduser \
     -u "${UID}" \
     -g "${GID}" \
     -D "${GRP}" \
-   -h /home/app \
+   -h ${HOME} \
     "${USR}" 
 
 RUN mkdir ${WORKDIR}
@@ -37,13 +37,33 @@ RUN go clean -modcache \
     ./cmd/drone-helm/main.go
 
 FROM alpine/helm:3.12.3
-MAINTAINER Joachim Hill-Grannec <joachim@pelo.tech>
 
-# COPY build/drone-helm /bin/drone-helm
+ARG UID=1001
+ARG GID=1001
+
+ENV USR=app
+ENV GRP=app
+ARG HOME=/home/${USR}
+
+RUN addgroup --gid "${GID}" "${GRP}"
+RUN adduser \
+    -S \
+    -u "${UID}" \
+    -g "${GID}" \
+    -D "${GRP}" \
+   -h ${HOME} \
+    "${USR}" 
+
 COPY --from=builder /app/drone-helm /bin/drone-helm
-COPY assets/kubeconfig.tpl /root/.kube/config.tpl
+COPY assets/kubeconfig.tpl ${HOME}/.kube/config.tpl
+RUN chown -R ${USR}:${GRP} ${HOME} && chmod -R 700 ${HOME}/.kube
+
+USER ${USR}
+WORKDIR ${HOME}
+
 
 LABEL description="Helm 3 plugin for Drone 3"
 LABEL base="alpine/helm"
 
+# ENTRYPOINT ["sh", "-c", "ls -lha .kube"]
 ENTRYPOINT [ "/bin/drone-helm" ]

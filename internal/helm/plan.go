@@ -3,14 +3,15 @@ package helm
 import (
 	"errors"
 	"fmt"
+	"os"
+
 	"github.com/pelotech/drone-helm3/internal/env"
 	"github.com/pelotech/drone-helm3/internal/run"
-	"os"
 )
 
 const (
-	kubeConfigTemplate = "/root/.kube/config.tpl"
-	kubeConfigFile     = "/root/.kube/config"
+	kubeConfigTemplate = "/.kube/config.tpl"
+	kubeConfigFile     = "/.kube/config"
 )
 
 // A Step is one step in the plan.
@@ -91,9 +92,13 @@ func (p *Plan) Execute() error {
 }
 
 var upgrade = func(cfg env.Config) []Step {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("while getting user home directory: %w", err)
+	}
 	var steps []Step
 	if !cfg.SkipKubeconfig {
-		steps = append(steps, run.NewInitKube(cfg, kubeConfigTemplate, kubeConfigFile))
+		steps = append(steps, run.NewInitKube(cfg, homeDir+kubeConfigTemplate, homeDir+kubeConfigFile))
 	}
 	for _, repo := range cfg.AddRepos {
 		steps = append(steps, run.NewAddRepo(cfg, repo))
@@ -113,9 +118,13 @@ var upgrade = func(cfg env.Config) []Step {
 }
 
 var uninstall = func(cfg env.Config) []Step {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("while getting user home directory: %w", err)
+	}
 	var steps []Step
 	if !cfg.SkipKubeconfig {
-		steps = append(steps, run.NewInitKube(cfg, kubeConfigTemplate, kubeConfigFile))
+		steps = append(steps, run.NewInitKube(cfg, homeDir+kubeConfigTemplate, homeDir+kubeConfigFile))
 	}
 	if cfg.UpdateDependencies {
 		steps = append(steps, run.NewDepUpdate(cfg))

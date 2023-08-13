@@ -3,10 +3,11 @@ package run
 import (
 	"errors"
 	"fmt"
-	"github.com/pelotech/drone-helm3/internal/env"
 	"io"
 	"os"
 	"text/template"
+
+	"github.com/pelotech/drone-helm3/internal/env"
 )
 
 // InitKube is a step in a helm Plan that initializes the kubernetes config file.
@@ -90,6 +91,9 @@ func (i *InitKube) Prepare() error {
 	i.configFile, err = os.Create(i.configFilename)
 	if err != nil {
 		return fmt.Errorf("could not open kubeconfig file for writing: %w", err)
+	}
+	if err := os.Chmod(i.configFilename, 0600); err != nil {
+		return fmt.Errorf("could not set kubeconfig file permissions: %w", err)
 	}
 	return nil
 }

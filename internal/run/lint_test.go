@@ -36,7 +36,7 @@ func (suite *LintTestSuite) TestNewLint() {
 		Chart:        "./flow",
 		Values:       "steadfastness,forthrightness",
 		StringValues: "tensile_strength,flexibility",
-		ValuesFiles:  []string{"/root/price_inventory.yml"},
+		ValuesFiles:  []string{"~/price_inventory.yml"},
 		LintStrictly: true,
 	}
 	lint := NewLint(cfg)
@@ -44,7 +44,7 @@ func (suite *LintTestSuite) TestNewLint() {
 	suite.Equal("./flow", lint.chart)
 	suite.Equal("steadfastness,forthrightness", lint.values)
 	suite.Equal("tensile_strength,flexibility", lint.stringValues)
-	suite.Equal([]string{"/root/price_inventory.yml"}, lint.valuesFiles)
+	suite.Equal([]string{"~/price_inventory.yml"}, lint.valuesFiles)
 	suite.Equal(true, lint.strict)
 	suite.NotNil(lint.config)
 }
