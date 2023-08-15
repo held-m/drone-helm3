@@ -37,6 +37,7 @@ RUN go clean -modcache \
     ./cmd/drone-helm/main.go
 
 FROM alpine/helm:3.12.3
+MAINTAINER Joachim Hill-Grannec <joachim@pelo.tech>
 
 # TODO: use non-root user. Need to fix permision with drone-runner first
 # ARG UID=1001
