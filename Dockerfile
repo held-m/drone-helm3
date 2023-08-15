@@ -38,32 +38,35 @@ RUN go clean -modcache \
 
 FROM alpine/helm:3.12.3
 
-ARG UID=1001
-ARG GID=1001
+# TODO: use non-root user. Need to fix permision with drone-runner first
+# ARG UID=1001
+# ARG GID=1001
+# ENV USR=app
+# ENV GRP=app
+# ARG HOME=/home/${USR}
+ARG HOME=/root
 
-ENV USR=app
-ENV GRP=app
-ARG HOME=/home/${USR}
-
-RUN addgroup --gid "${GID}" "${GRP}"
-RUN adduser \
-    -S \
-    -u "${UID}" \
-    -g "${GID}" \
-    -D "${GRP}" \
-   -h ${HOME} \
-    "${USR}" 
+# TODO: use non-root user. Need to fix permision with drone-runner first
+# RUN addgroup --gid "${GID}" "${GRP}"
+# RUN adduser \
+#     -S \
+#     -u "${UID}" \
+#     -g "${GID}" \
+#     -D "${GRP}" \
+#    -h ${HOME} \
+#     "${USR}" 
 
 COPY --from=builder /app/drone-helm /bin/drone-helm
 COPY assets/kubeconfig.tpl ${HOME}/.kube/config.tpl
-RUN chown -R ${USR}:${GRP} ${HOME} && chmod -R 700 ${HOME}/.kube
+# RUN chown -R ${USR}:${GRP} ${HOME} && chmod -R 700 ${HOME}/.kube
+RUN chmod -R 700 ${HOME}/.kube
 
-USER ${USR}
+# TODO: use non-root user. Need to fix permision with drone-runner first
+# USER ${USR}
 WORKDIR ${HOME}
 
 
 LABEL description="Helm 3 plugin for Drone 3"
 LABEL base="alpine/helm"
 
-# ENTRYPOINT ["sh", "-c", "ls -lha .kube"]
 ENTRYPOINT [ "/bin/drone-helm" ]

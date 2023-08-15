@@ -45,6 +45,7 @@ type Config struct {
 	APIServer          string   `envconfig:"kube_api_server"`        // The Kubernetes cluster's API endpoint
 	ServiceAccount     string   `envconfig:"kube_service_account"`   // Account to use for connecting to the Kubernetes cluster
 	ChartVersion       string   `split_words:"true"`                 // Specific chart version to use in `helm upgrade`
+	AppVersion         string   `split_words:"true"`                 // Specific app version to use in `helm upgrade`
 	DryRun             bool     `split_words:"true"`                 // Pass --dry-run to applicable helm commands
 	Wait               bool     `envconfig:"wait_for_upgrade"`       // Pass --wait to applicable helm commands
 	ReuseValues        bool     `split_words:"true"`                 // Pass --reuse-values to `helm upgrade`
