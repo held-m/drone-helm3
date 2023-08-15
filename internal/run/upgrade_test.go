@@ -36,6 +36,7 @@ func TestUpgradeTestSuite(t *testing.T) {
 func (suite *UpgradeTestSuite) TestNewUpgrade() {
 	cfg := env.NewTestConfig(suite.T())
 	cfg.ChartVersion = "seventeen"
+	cfg.AppVersion = "eighteen"
 	cfg.DryRun = true
 	cfg.Wait = true
 	cfg.Values = "steadfastness,forthrightness"
@@ -54,6 +55,7 @@ func (suite *UpgradeTestSuite) TestNewUpgrade() {
 	suite.Equal(cfg.Chart, up.chart)
 	suite.Equal(cfg.Release, up.release)
 	suite.Equal(cfg.ChartVersion, up.chartVersion)
+	suite.Equal(cfg.AppVersion, up.appVersion)
 	suite.Equal(true, up.dryRun)
 	suite.Equal(cfg.Wait, up.wait)
 	suite.Equal("steadfastness,forthrightness", up.values)
