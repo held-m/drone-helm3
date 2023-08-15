@@ -37,6 +37,7 @@ Installations are triggered when the `mode` setting is "upgrade." They can also 
 | kube_service_account   | string         |          | service_account        | Service account for authenticating to Kubernetes. Default is `helm`. This is ignored if `skip_kubeconfig` is `true`. |
 | kube_certificate       | string         |          | kubernetes_certificate | Base64 encoded TLS certificate used by the Kubernetes cluster's certificate authority. This is ignored if `skip_kubeconfig` is `true`. |
 | chart_version          | string         |          |                        | Specific chart version to install. |
+| app_version            | string         |          |                        | Specific app version to install. |
 | dry_run                | boolean        |          |                        | Pass `--dry-run` to `helm upgrade`. |
 | dependencies_action    | string         |          |                        | Calls `helm dependency build` OR `helm dependency update` before running the main command. Possible values: `build`, `update`. |
 | wait_for_upgrade       | boolean        |          | wait                   | Wait until kubernetes resources are in a ready state before marking the installation successful. |

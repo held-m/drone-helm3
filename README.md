@@ -37,6 +37,8 @@ steps:
       mode: upgrade
       chart: ./
       release: my-project
+      chart_version: ${DRONE_TAG}
+      app_version: ${DRONE_TAG}
     environment:
       KUBE_API_SERVER: https://my.kubernetes.installation/clusters/a-1234
       KUBE_TOKEN:
