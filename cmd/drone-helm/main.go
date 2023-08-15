@@ -20,7 +20,7 @@ func main() {
 	// Make the plan
 	plan, err := helm.NewPlan(*cfg)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%w\n", err)
+		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 

@@ -13,6 +13,7 @@ type Upgrade struct {
 	release string
 
 	chartVersion    string
+	appVersion      string
 	dryRun          bool
 	wait            bool
 	values          string
@@ -38,6 +39,7 @@ func NewUpgrade(cfg env.Config) *Upgrade {
 		chart:           cfg.Chart,
 		release:         cfg.Release,
 		chartVersion:    cfg.ChartVersion,
+		appVersion:      cfg.AppVersion,
 		dryRun:          cfg.DryRun,
 		wait:            cfg.Wait,
 		values:          cfg.Values,
@@ -74,7 +76,17 @@ func (u *Upgrade) Prepare() error {
 
 	if u.chartVersion != "" {
 		args = append(args, "--version", u.chartVersion)
+		EditChartYaml(u.chart, func(chartYaml *ChartYaml) {
+			chartYaml.Version = u.chartVersion
+		})
 	}
+
+	if u.appVersion != "" {
+		EditChartYaml(u.chart, func(chartYaml *ChartYaml) {
+			chartYaml.AppVersion = u.appVersion
+		})
+	}
+
 	if u.dryRun {
 		args = append(args, "--dry-run")
 	}
