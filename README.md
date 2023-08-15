@@ -1,5 +1,10 @@
 # Drone plugin for Helm 3
 
+This fork
+ - supports amd64 and amr64 processors
+ - has chart and app version
+
+
 [![Build Status](https://cloud.drone.io/api/badges/pelotech/drone-helm3/status.svg)](https://cloud.drone.io/pelotech/drone-helm3)
 [![Go Report](https://goreportcard.com/badge/github.com/pelotech/drone-helm3)](https://goreportcard.com/report/github.com/pelotech/drone-helm3)
 [![](https://images.microbadger.com/badges/image/pelotech/drone-helm3.svg)](https://microbadger.com/images/pelotech/drone-helm3 "Get your own image badge on microbadger.com")
@@ -12,6 +17,8 @@ This plugin provides an interface between [Drone](https://drone.io/) and [Helm 3
 
 The plugin is inpsired by [drone-helm](https://github.com/ipedrazas/drone-helm), which fills the same role for Helm 2. It provides a comparable feature-set and the configuration settings are backward-compatible.
 
+
+
 ## Example configuration
 
 The examples below give a minimal and sufficient configuration for each use-case. For a full description of each command's settings, see [docs/parameter_reference.md](docs/parameter_reference.md).
@@ -21,7 +28,7 @@ The examples below give a minimal and sufficient configuration for each use-case
 ```yaml
 steps:
   - name: lint
-    image: pelotech/drone-helm3
+    image: heldm/drone-helm3
     settings:
       mode: lint
       chart: ./
@@ -32,7 +39,7 @@ steps:
 ```yaml
 steps:
   - name: deploy
-    image: pelotech/drone-helm3
+    image: heldm/drone-helm3
     settings:
       mode: upgrade
       chart: ./
@@ -50,7 +57,7 @@ steps:
 ```yaml
 steps:
   - name: uninstall
-    image: pelotech/drone-helm3
+    image: heldm/drone-helm3
     settings:
       mode: uninstall
       release: my-project
